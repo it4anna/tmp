@@ -1,13 +1,12 @@
-.sub-item-content {
-  position: relative;
-}
 .list {
   position: absolute;
-  right: -100%;
-  top: 0;
 }
-.placeholder,
-.item {
+.list-container {
+  position: relative;
+  right: -100%;
+  top: -30px;
+}
+.placeholder {
   padding: 5px;
   border: solid 1px;
 }

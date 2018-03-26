@@ -2,28 +2,36 @@ import React, { Component } from 'react';
 import './list.css';
 
 class List extends Component {
-  renderList(children) {
-    return (
-      <div className='sub-item-content'>
-        <div className='placeholder'>{children.label}</div>
-          <div className='list'>
-            <List>{children.children}</List>
-        </div>
-      </div>
-    );
+  constructor() {
+    super();
+    this.state = {
+      visibleItemId: null
+    };
+  }
+
+  onItemClick(item) {
+    this.setState( prevState => ({
+        visibleItemId: prevState.visibleItemId === item.id ? null : item.id
+    }));
   }
 
   render() {
     const { children } = this.props;
 
-    return (children.children
-      ? <div className='sub-item'>{this.renderList(children)}</div>
-      : children.map(child => child.children
-        ? <div className='sub-item' key={child.id}>{this.renderList(child)}</div>
-        : <div className='item' key={child.id}>{child.label}</div>
-        )
-    );
+    return (<div className='list'>
+        {children.list.map(item => (
+            <div className='list-container' key={item.id}>
+              <div
+                className='placeholder'
+                onClick={() => this.onItemClick(item)}
+              >
+                {item.label}
+              </div>
+              {item.list && this.state.visibleItemId === item.id && <List>{item}</List>}
+            </div>
+      ))}
+    </div>);
   }
-};
+}
 
 export default List;
